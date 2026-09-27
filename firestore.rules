@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Serviços Fiscais LC 116 (Consulta pública, criação/atualização com validação de esquema)
+    match /servicos/{servicoId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.descricao is string 
+                            && request.resource.data.descricao.size() > 0
+                            && request.resource.data.codigoNovo is string;
+      allow delete: if true;
+    }
+
+    // Catálogo NBS (Consulta pública, criação/atualização com validação de código e descrição)
+    match /nbs/{nbsId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.codigo is string 
+                            && request.resource.data.codigo.size() > 0
+                            && request.resource.data.descricao is string;
+      allow delete: if true;
+    }
+
+    // Prefeituras Padrão Nacional (Consulta pública, criação/atualização com validação de cidade e UF)
+    match /prefeituras/{prefeituraId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.cidade is string 
+                            && request.resource.data.cidade.size() > 0
+                            && request.resource.data.uf is string;
+      allow delete: if true;
+    }
+
+    // Configurações do Sistema e Senha Mestra Criptografada
+    match /config/{configId} {
+      allow read: if true;
+      // Exige hash SHA-256 válido (64 caracteres) e salt aleatório seguro (mínimo 16 caracteres)
+      allow create, update: if request.resource.data.passwordHash is string
+                            && request.resource.data.passwordHash.size() == 64
+                            && request.resource.data.salt is string
+                            && request.resource.data.salt.size() >= 16;
+      // Proíbe exclusão da configuração mestra para evitar que o sistema seja travado
+      allow delete: if false;
+    }
+  }
+}
+

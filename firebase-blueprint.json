@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "entities": {
+    "servicos": {
+      "collectionName": "servicos",
+      "description": "Tabela de Serviços Fiscais LC 116 e regras de ISS",
+      "schema": {
+        "id": { "type": "string", "description": "Identificador único do serviço" },
+        "codigoAntigo": { "type": "string", "description": "Código do serviço na LC 116 anterior" },
+        "codigoNovo": { "type": "string", "description": "Código do serviço novo / atual" },
+        "descricao": { "type": "string", "description": "Descrição detalhada do serviço" },
+        "regraRetencao": { "type": "string", "description": "Regra de retenção na fonte" },
+        "localIncidencia": { "type": "string", "description": "Local de incidência do ISS (Prestador ou Tomador)" },
+        "aliquotaMinima": { "type": "number", "description": "Alíquota mínima de ISS (ex: 2.0)" },
+        "aliquotaMaxima": { "type": "number", "description": "Alíquota máxima de ISS (ex: 5.0)" },
+        "observacoes": { "type": "string", "description": "Observações fiscais adicionais" },
+        "updatedAt": { "type": "string", "description": "Timestamp de última atualização" }
+      }
+    },
+    "nbs": {
+      "collectionName": "nbs",
+      "description": "Catálogo da Nomenclatura Brasileira de Serviços (NBS)",
+      "schema": {
+        "codigo": { "type": "string", "description": "Código formatado da NBS (ex: 1.0101.11.00)" },
+        "descricao": { "type": "string", "description": "Descrição oficial do item da NBS" },
+        "capitulo": { "type": "string", "description": "Capítulo ou agrupamento da NBS" },
+        "posicao": { "type": "string", "description": "Posição" },
+        "subposicao": { "type": "string", "description": "Subposição" },
+        "updatedAt": { "type": "string", "description": "Timestamp de última atualização" }
+      }
+    },
+    "prefeituras": {
+      "collectionName": "prefeituras",
+      "description": "Prefeituras e municípios com adesão ao Padrão Nacional de NFS-e",
+      "schema": {
+        "id": { "type": "string", "description": "Identificador único do registro" },
+        "cidade": { "type": "string", "description": "Nome do município" },
+        "uf": { "type": "string", "description": "Sigla do estado (UF)" },
+        "codigoIbge": { "type": "string", "description": "Código IBGE de 7 dígitos" },
+        "status": { "type": "string", "description": "Status da prefeitura: APTA, EM_HOMOLOGACAO ou NAO_APTA" },
+        "populacao": { "type": "string", "description": "População ou quantidade de habitantes do município (ex: 20.763)" },
+        "dataAdesao": { "type": "string", "description": "Data de início de adesão ou obrigatoriedade" },
+        "observacoes": { "type": "string", "description": "Observações e notas operacionais" },
+        "updatedAt": { "type": "string", "description": "Timestamp de última atualização" }
+      }
+    },
+    "config": {
+      "collectionName": "config",
+      "description": "Configurações globais e chave mestra de segurança do sistema ATS",
+      "schema": {
+        "passwordHash": { "type": "string", "description": "Hash seguro SHA-256 da senha mestra" },
+        "salt": { "type": "string", "description": "Salt criptográfico para proteger o hash" },
+        "updatedBy": { "type": "string", "description": "E-mail ou identificador do administrador" },
+        "updatedAt": { "type": "string", "description": "Timestamp de atualização" }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Consultas Fiscais",
+  "description": "Portal de inteligência tributária e consultas fiscais: Serviços LC 116, Catálogo NBS e Prefeituras Padrão Nacional de NFS-e.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
