@@ -162,7 +162,7 @@ export default function App() {
                 NFSe Fiscal
               </span>
               <span className="text-[9px] text-red-400 font-bold uppercase tracking-wider block">
-                ATS INFORMÁTICA
+                INTELIGÊNCIA TRIBUTÁRIA
               </span>
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function App() {
                 </h1>
                 <div className="mt-0.5 space-y-0.5">
                   <p className="text-[11px] sm:text-xs text-slate-600 font-semibold">
-                    Painel Corporativo de Inteligência Fiscal — ATS Informática
+                    Painel Corporativo de Inteligência Fiscal
                   </p>
                   <p className="text-[10px] sm:text-xs text-slate-500 font-medium">
                     Apenas para consultas internas (Não aplicar ao cliente sem consultar a contabilidade)

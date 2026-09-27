@@ -7,7 +7,7 @@ export interface RawCityEntry {
   emissor: string;
 }
 
-// Extracted from original ATS dataset with parsed UFs and IBGE mappings
+// Extracted from original dataset with parsed UFs and IBGE mappings
 export const rawPrefeiturasList: PrefeituraNacional[] = [
   { id: 'pref-bsb', cidade: 'BRASILIA', uf: 'DF', cnpj: '26.994.533/0001-20', codigoIbge: '5300108', status: 'Em Adequação', emissor: 'Webservice Municipal', provedor: 'GovBR' },
   { id: 'pref-ab-go', cidade: 'ABADIA DE GOIAS', uf: 'GO', cnpj: '01.613.940/0001-19', codigoIbge: '5200050', status: 'Apta', emissor: 'Padrão Nacional', provedor: 'NFS-e Nacional' },

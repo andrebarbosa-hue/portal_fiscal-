@@ -13,5 +13,9 @@ export function generateSalt(length = 16): string {
 }
 
 export async function hashPasswordWithSalt(password: string, salt: string): Promise<string> {
+  return sha256(`${salt}:${password.trim()}:portal_fiscal_key`);
+}
+
+export async function hashPasswordWithLegacySalt(password: string, salt: string): Promise<string> {
   return sha256(`${salt}:${password.trim()}:ats_portal_fiscal_key`);
 }

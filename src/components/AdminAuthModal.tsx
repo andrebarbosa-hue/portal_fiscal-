@@ -154,7 +154,7 @@ export const AdminAuthModal: React.FC = () => {
                 onChange={(e) => setCurrentPass(e.target.value)}
                 required
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-600/30 focus:border-red-600 transition-all"
-                placeholder="Digite a senha atual (padrão inicial: ats123)"
+                placeholder="Digite a senha atual"
               />
             </div>
 
@@ -172,7 +172,7 @@ export const AdminAuthModal: React.FC = () => {
                 placeholder="Mínimo 8 caracteres (letras e números)"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">
-                Exemplo: ATSFiscal@2026 ou SenhaForte123
+                Exemplo: Fiscal@2026 ou SenhaForte123
               </span>
             </div>
 
@@ -289,7 +289,7 @@ export const AdminAuthModal: React.FC = () => {
                     <span>Protegido no banco Firestore</span>
                   </span>
                 ) : (
-                  <span>Senha inicial padrão: <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700 font-mono">ats123</code></span>
+                  <span>Acesso restrito a administradores autorizados</span>
                 )}
                 {remainingAttempts < 5 && lockoutSeconds === 0 && (
                   <span className="text-amber-700 font-bold">

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { firestoreService } from '../services/firestoreService';
-import { hashPasswordWithSalt, generateSalt } from '../utils/cryptoUtils';
+import { hashPasswordWithSalt, hashPasswordWithLegacySalt, generateSalt } from '../utils/cryptoUtils';
 
 interface AuthContextType {
   isAdmin: boolean;
@@ -20,9 +20,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Configurações de Segurança e Proteção Anti-Força Bruta
-const INITIAL_DEFAULT_PASSWORD = 'ats123';
-const STORAGE_KEY_AUTH = 'ats_fiscal_admin_session_v2';
-const STORAGE_KEY_RATE_LIMIT = 'ats_fiscal_auth_ratelimit_v1';
+const INITIAL_DEFAULT_PASSWORD = 'admin123';
+const STORAGE_KEY_AUTH = 'portal_fiscal_admin_session_v2';
+const STORAGE_KEY_RATE_LIMIT = 'portal_fiscal_auth_ratelimit_v1';
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_TIME_MS = 5 * 60 * 1000; // 5 minutos de bloqueio temporário após 5 erros
 const MAX_SESSION_DURATION_MS = 4 * 60 * 60 * 1000; // Sessão expira automaticamente em 4 horas
@@ -119,7 +119,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await firestoreService.saveAdminPasswordConfig(
               initialHash,
               initialSalt,
-              'andre.barbosa@atsinformatica.com.br'
+              'andre.barbosa'
             );
             setCloudSyncStatus('synced');
           } catch (initErr) {
@@ -158,9 +158,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (cloudConfig && cloudConfig.passwordHash && cloudConfig.salt) {
         const computedHash = await hashPasswordWithSalt(cleanPass, cloudConfig.salt);
-        isMatch = computedHash === cloudConfig.passwordHash;
+        const computedLegacyHash = await hashPasswordWithLegacySalt(cleanPass, cloudConfig.salt);
+        isMatch = computedHash === cloudConfig.passwordHash || computedLegacyHash === cloudConfig.passwordHash;
       } else {
-        isMatch = cleanPass === INITIAL_DEFAULT_PASSWORD;
+        isMatch = cleanPass === INITIAL_DEFAULT_PASSWORD || cleanPass === 'ats123';
       }
 
       if (isMatch) {
@@ -267,7 +268,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await firestoreService.saveAdminPasswordConfig(
         newPasswordHash,
         newSalt,
-        adminUser || 'andre.barbosa@atsinformatica.com.br'
+        adminUser || 'andre.barbosa'
       );
 
       setCloudSyncStatus('synced');
