@@ -159,9 +159,81 @@ export const ServicosModule: React.FC<ServicosModuleProps> = ({
         </div>
       </div>
 
-      {/* Table Container */}
+      {/* Table & Mobile Cards Container */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile View: Vertical Cards (Phones in portrait mode) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {filteredServicos.length === 0 ? (
+            <div className="py-10 px-4 text-center text-slate-400">
+              <p className="font-bold text-slate-700 text-sm">
+                {servicos.length === 0
+                  ? 'Nenhum serviço fiscal gravado no banco de dados'
+                  : 'Nenhum serviço encontrado'}
+              </p>
+              <p className="text-xs text-slate-400 mt-1">
+                Tente pesquisar por outros termos ou códigos.
+              </p>
+            </div>
+          ) : (
+            paginatedList.map(item => {
+              const isCopied = copiedId === item.id;
+
+              return (
+                <div key={item.id} className="p-3.5 space-y-2.5 hover:bg-slate-50/60 transition-colors">
+                  {/* Top row: Codes & Aliquota */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                      <span className="font-mono font-bold text-slate-900 text-xs px-2 py-0.5 bg-slate-100 rounded-md border border-slate-200/80">
+                        {item.codigoNovo}
+                      </span>
+                      {item.codigoAntigo && item.codigoAntigo !== 'N/A' && (
+                        <span className="font-mono text-[10px] text-slate-500 font-semibold truncate">
+                          Ant: {item.codigoAntigo}
+                        </span>
+                      )}
+                    </div>
+                    <span className="font-bold text-xs px-2 py-0.5 bg-red-50 text-red-700 rounded-md border border-red-100/80 shrink-0">
+                      {item.aliquotaSugerida}%
+                    </span>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-xs text-slate-800 font-medium leading-relaxed">
+                    {item.descricao}
+                  </p>
+
+                  {/* Bottom bar: NBS Copy button & Detalhes */}
+                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                    <button
+                      onClick={() => handleCopyNBS(item.nbs, item.id)}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg font-mono text-[11px] font-bold text-slate-700 bg-slate-50 active:bg-slate-100 border border-slate-200/80 transition-colors cursor-pointer"
+                      title="Clique para copiar NBS"
+                    >
+                      {isCopied ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      )}
+                      <span>NBS: {item.nbs}</span>
+                      {isCopied && <span className="text-[10px] text-emerald-600 font-sans font-bold">Copiado!</span>}
+                    </button>
+
+                    <button
+                      onClick={() => onOpenDetail(item)}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 rounded-lg text-xs font-bold transition-colors cursor-pointer shrink-0"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Detalhes</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Desktop View: Full Data Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">

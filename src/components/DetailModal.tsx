@@ -26,8 +26,8 @@ export const DetailModal: React.FC<DetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-in fade-in duration-150">
-      <div className="bg-white rounded-2xl w-full max-w-xl p-6 shadow-2xl border border-slate-200 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-3 sm:p-4 animate-in fade-in duration-150">
+      <div className="bg-white rounded-2xl w-full max-w-xl p-4 sm:p-6 shadow-2xl border border-slate-200 flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
           <div>

@@ -205,9 +205,86 @@ export const PrefeiturasModule: React.FC<PrefeiturasModuleProps> = ({
         </div>
       </div>
 
-      {/* Table of Prefeituras */}
+      {/* Table & Mobile Cards Container */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile View: Vertical Cards (Phones in portrait mode) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {paginatedList.length === 0 ? (
+            <div className="py-10 px-4 text-center text-slate-400">
+              <p className="font-semibold text-slate-700 text-sm">Nenhum município encontrado</p>
+              <p className="text-xs text-slate-400 mt-1">Experimente mudar o filtro de UF ou buscar por outro nome.</p>
+            </div>
+          ) : (
+            paginatedList.map(item => {
+              const isCopied = copiedId === item.id;
+              const isApta = item.status === 'Apta';
+
+              return (
+                <div key={item.id} className="p-3.5 space-y-2 hover:bg-slate-50/60 transition-colors">
+                  {/* Top row: City, UF and Status */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-[10px] px-1.5 py-0.5 bg-slate-200 text-slate-800 font-black rounded shrink-0">
+                        {item.uf}
+                      </span>
+                      <h4 className="font-bold text-slate-900 text-sm truncate">
+                        {item.cidade}
+                      </h4>
+                    </div>
+
+                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-bold border shrink-0 ${
+                      isApta
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                        : 'bg-amber-50 text-amber-700 border-amber-200'
+                    }`}>
+                      {isApta ? <CheckCircle2 className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                      <span>{item.status}</span>
+                    </span>
+                  </div>
+
+                  {/* Middle row: CNPJ and População */}
+                  <div className="flex items-center justify-between text-xs text-slate-600 gap-2">
+                    <div className="flex items-center gap-1">
+                      <span className="text-[10px] text-slate-400 font-bold">CNPJ:</span>
+                      <button
+                        onClick={() => handleCopy(item.cnpj, item.id)}
+                        className="font-mono text-[11px] font-bold text-slate-800 hover:text-red-600 inline-flex items-center gap-1 cursor-pointer"
+                        title="Clique para copiar CNPJ"
+                      >
+                        <span>{item.cnpj || '—'}</span>
+                        {item.cnpj && (isCopied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-400" />)}
+                      </button>
+                    </div>
+
+                    {item.populacao && (
+                      <span className="text-[11px] text-slate-500 font-mono">
+                        {item.populacao} hab.
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Bottom bar: Emissor & Detalhes */}
+                  <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
+                    <span className="text-[10px] text-slate-500 font-medium truncate">
+                      {item.emissor || 'Padrão Nacional'}
+                    </span>
+
+                    <button
+                      onClick={() => onOpenDetail(item)}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs font-bold transition-colors cursor-pointer shrink-0"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Ver Ficha</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Desktop View: Full Data Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">

@@ -177,9 +177,66 @@ export const NBSModule: React.FC<NBSModuleProps> = ({ nbsList, onOpenExcelPaste,
         </div>
       </div>
 
-      {/* Table Container */}
+      {/* Table & Mobile Cards Container */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile View: Vertical Cards (Phones in portrait mode) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {paginatedNBS.length === 0 ? (
+            <div className="py-10 px-4 text-center text-slate-400">
+              <BookOpen className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+              <p className="font-bold text-slate-700 text-sm">
+                {nbsList.length === 0
+                  ? 'Nenhum item da NBS gravado no banco de dados'
+                  : 'Nenhum item da NBS corresponde à busca'}
+              </p>
+              <p className="text-xs text-slate-400 mt-1">
+                {nbsList.length === 0
+                  ? 'Importe a tabela oficial através do botão "Colar do Excel".'
+                  : 'Limpe o filtro ou busque por termos mais genéricos.'}
+              </p>
+            </div>
+          ) : (
+            paginatedNBS.map(item => {
+              const isCopied = copiedCode === item.codigo;
+              return (
+                <div key={item.codigo} className="p-3.5 space-y-2 hover:bg-slate-50/60 transition-colors">
+                  {/* Top row: Code and Chapter badge */}
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono font-black text-slate-900 text-sm px-2.5 py-0.5 bg-slate-100 rounded-md border border-slate-200">
+                      {item.codigo}
+                    </span>
+                    <span className="inline-flex items-center text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md truncate max-w-[170px]">
+                      Cap. {item.capitulo} - {capitulosNBSDict[item.capitulo] || item.nomeCapitulo || 'Geral'}
+                    </span>
+                  </div>
+
+                  {/* RFB Description */}
+                  <p className="text-xs text-slate-800 font-medium leading-relaxed">
+                    {item.descricao}
+                  </p>
+
+                  {/* Copy button */}
+                  <div className="pt-0.5">
+                    <button
+                      onClick={() => handleCopy(item.codigo)}
+                      className={`w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        isCopied
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                      }`}
+                    >
+                      {isCopied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4 text-slate-500" />}
+                      <span>{isCopied ? 'Código NBS Copiado com Sucesso!' : 'Copiar Código NBS'}</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Desktop View: Full Data Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
