@@ -82,7 +82,7 @@ export const NBSModule: React.FC<NBSModuleProps> = ({ nbsList, onOpenExcelPaste,
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-black text-slate-900 tracking-tight">
-              Catálogo NBS 2.0
+              Catálogo NBS
             </h2>
           </div>
 
@@ -302,7 +302,7 @@ export const NBSModule: React.FC<NBSModuleProps> = ({ nbsList, onOpenExcelPaste,
                   required
                   value={newDescricao}
                   onChange={e => setNewDescricao(e.target.value)}
-                  placeholder="Descrição da atividade conforme NBS 2.0"
+                  placeholder="Descrição da atividade conforme NBS"
                   className="w-full border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
                 />
               </div>

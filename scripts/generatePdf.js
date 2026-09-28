@@ -65,7 +65,7 @@ y += 6;
 doc.setFont('helvetica', 'normal');
 doc.setFontSize(9.5);
 doc.setTextColor(...COLOR_TEXT);
-const p1 = 'O Brasil possui mais de 5.500 municípios, cada um com autonomia sobre suas regras de ISS, alíquotas e particularidades de emissão de NFS-e. Com a implementação do Padrão Nacional de NFS-e (DPS) e a obrigatoriedade da Nomenclatura Brasileira de Serviços (NBS 2.0 da Receita Federal), empresas de software, contadores e departamentos fiscais enfrentam constantes gargalos manuais e risco tributário.';
+const p1 = 'O Brasil possui mais de 5.500 municípios, cada um com autonomia sobre suas regras de ISS, alíquotas e particularidades de emissão de NFS-e. Com a implementação do Padrão Nacional de NFS-e (DPS) e a obrigatoriedade da Nomenclatura Brasileira de Serviços (NBS da Receita Federal), empresas de software, contadores e departamentos fiscais enfrentam constantes gargalos manuais e risco tributário.';
 const splitP1 = doc.splitTextToSize(p1, contentWidth);
 doc.text(splitP1, margin, y);
 
@@ -102,7 +102,7 @@ doc.setTextColor(...COLOR_TEXT);
 const descA = [
   '• Cruzamento instantâneo entre código antigo de serviço e o novo código de tributação DPS.',
   '• Parametrização de alíquotas sugeridas, exigibilidade de retenção de ISS no tomador e local de incidência.',
-  '• Correlação automatizada com código NBS 2.0 da RFB com recurso de cópia rápida em 1 toque.',
+  '• Correlação automatizada com código NBS da RFB com recurso de cópia rápida em 1 toque.',
   '• Busca inteligente por palavras-chave, código legado, DPS ou base legal sem latência.'
 ];
 descA.forEach((line, i) => {
@@ -111,14 +111,14 @@ descA.forEach((line, i) => {
 
 y += 36;
 
-// Box 2: NBS 2.0
+// Box 2: NBS
 doc.setFillColor(...COLOR_BG_LIGHT);
 doc.roundedRect(margin, y, contentWidth, 27, 2, 2, 'FD');
 
 doc.setFont('helvetica', 'bold');
 doc.setFontSize(10.5);
 doc.setTextColor(...COLOR_PRIMARY);
-doc.text('B) Catálogo Oficial da NBS 2.0 (Receita Federal do Brasil)', margin + 4, y + 6);
+doc.text('B) Catálogo Oficial da NBS (Receita Federal do Brasil)', margin + 4, y + 6);
 
 doc.setFont('helvetica', 'normal');
 doc.setFontSize(8.5);

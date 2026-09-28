@@ -71,7 +71,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
 
                 <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-400 font-bold uppercase block">NBS 2.0 Vinculada</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase block">NBS Vinculada</span>
                     <span className="font-mono font-bold text-red-600 text-sm">{item.nbs}</span>
                   </div>
                   <button

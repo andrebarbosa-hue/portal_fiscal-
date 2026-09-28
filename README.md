@@ -1,6 +1,6 @@
 # 📊 NFSe Fiscal — Portal de Inteligência Tributária
 
-> Plataforma corporativa moderna e responsiva para consulta, análise e gestão de regras fiscais de serviços (LC 116/2003), catálogo oficial da Nomenclatura Brasileira de Serviços (NBS 2.0) e acompanhamento em tempo real da adesão dos municípios ao Padrão Nacional de NFS-e (DPS).
+> Plataforma corporativa moderna e responsiva para consulta, análise e gestão de regras fiscais de serviços (LC 116/2003), catálogo oficial da Nomenclatura Brasileira de Serviços (NBS) e acompanhamento em tempo real da adesão dos municípios ao Padrão Nacional de NFS-e (DPS).
 
 ![React](https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)
@@ -24,10 +24,10 @@ Com mais de 5.500 municípios possuindo legislações próprias, a transição p
 ### 1. 📋 Tabela de Serviços Fiscais (LC 116 / DPS)
 - **Cruzamento Inteligente:** Correlação direta entre o código legado (antigo) e o novo código de tributação nacional (DPS).
 - **Alíquotas e Retenção:** Consulta de alíquotas municipais sugeridas, exigibilidade de retenção de ISS no tomador e local de incidência (Art. 3º da LC 116).
-- **Vínculo com NBS:** Associação direta com o código NBS 2.0 da Receita Federal com botão de cópia rápida em 1 clique.
+- **Vínculo com NBS:** Associação direta com o código NBS da Receita Federal com botão de cópia rápida em 1 clique.
 - **Busca em Tempo Real:** Pesquisa instantânea por código, descrição ou item legal sem latência.
 
-### 2. 📖 Catálogo Oficial NBS 2.0 (Receita Federal)
+### 2. 📖 Catálogo Oficial NBS (Receita Federal)
 - Catálogo completo estruturado por Capítulos (Cap. 15, 16, etc.) e subitens.
 - Filtro dinâmico por capítulos e busca textual em tempo real.
 - Botão touch para cópia imediata do código formatado para a área de transferência.
@@ -77,7 +77,7 @@ portal_fiscal/
 │   ├── components/        # Componentes visuais modulares
 │   │   ├── Sidebar.tsx           # Navegação lateral desktop e drawer mobile
 │   │   ├── ServicosModule.tsx    # Consulta de serviços, tabela e cards mobile
-│   │   ├── NBSModule.tsx         # Catálogo da NBS 2.0
+│   │   ├── NBSModule.tsx         # Catálogo da NBS
 │   │   ├── PrefeiturasModule.tsx # Monitor de cidades do Padrão Nacional
 │   │   ├── DetailModal.tsx       # Ficha técnica detalhada
 │   │   ├── AdminAuthModal.tsx    # Autenticação e redefinição de senha

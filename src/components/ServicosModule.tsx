@@ -349,7 +349,7 @@ export const ServicosModule: React.FC<ServicosModuleProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-slate-700 block mb-1">NBS 2.0 Sugerida</label>
+                  <label className="font-bold text-slate-700 block mb-1">NBS Sugerida</label>
                   <input
                     type="text"
                     required
