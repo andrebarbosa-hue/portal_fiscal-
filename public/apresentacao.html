@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFSe Fiscal — Apresentação Técnica & Arquitetura</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; padding: 0 !important; }
+      .page-break { page-break-after: always; }
+      .shadow-xl, .shadow-md, .shadow-2xl { box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 p-4 sm:p-8 md:p-12 antialiased">
+
+  <!-- Floating Action Bar (Ignored in print) -->
+  <div class="no-print max-w-4xl mx-auto mb-6 flex items-center justify-between bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-sm border border-slate-200">
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span class="text-xs font-bold text-slate-700">Documento Oficial de Apresentação Técnica</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="/NFSe_Fiscal_Apresentacao.pdf" download="NFSe_Fiscal_Apresentacao_Tecnica.pdf" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+        📥 Baixar Arquivo PDF
+      </a>
+      <button onclick="window.print()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer">
+        🖨️ Imprimir / Salvar PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Document Container -->
+  <main class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+    
+    <!-- Header Banner -->
+    <header class="bg-[#111827] text-white p-8 sm:p-10 border-b-4 border-red-600">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold tracking-widest text-red-500 uppercase block mb-1">
+            PORTAL CORPORATIVO DE INTELIGÊNCIA TRIBUTÁRIA
+          </span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            NFSe Fiscal
+          </h1>
+          <p class="text-sm text-slate-300 mt-2 max-w-xl">
+            Apresentação Técnica, Engenharia de Software e Resolução de Desafios Fiscais em Larga Escala.
+          </p>
+        </div>
+        <div class="sm:text-right border-t sm:border-t-0 border-slate-800 pt-3 sm:pt-0">
+          <p class="text-xs text-slate-400 font-medium">Desenvolvido por</p>
+          <p class="text-base font-extrabold text-white">André Antunes / André Barbosa</p>
+          <p class="text-xs text-red-400 font-mono mt-0.5">Full Stack Engineer</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="p-8 sm:p-10 space-y-8">
+      
+      <!-- 1. Visão Geral -->
+      <section>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-6 bg-red-600 rounded-full"></span>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">
+            1. Visão Geral & Problema de Negócio
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          O Brasil possui mais de <strong>5.500 municípios</strong>, cada um com autonomia sobre suas regras de ISS, alíquotas e particularidades de emissão de NFS-e. Com a implementação do <strong>Padrão Nacional de NFS-e (DPS)</strong> e a exigência de correlação com a <strong>NBS 2.0 da Receita Federal</strong>, empresas de software, departamentos fiscais e contabilidades enfrentam gargalos manuais, erros de enquadramento e lentidão na validação de notas.
+        </p>
+        <p class="text-sm text-slate-600 leading-relaxed mt-2">
+          O <strong>NFSe Fiscal</strong> foi concebido para resolver essa dor central: unificar, cruzar e parametrizar regras municipais e nacionais em milissegundos, com visual moderno e sincronização em nuvem.
+        </p>
+      </section>
+
+      <!-- 2. Módulos do Sistema -->
+      <section>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="w-2 h-6 bg-red-600 rounded-full"></span>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">
+            2. Módulos & Capacidades do Sistema
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <span class="text-[10px] font-bold text-red-600 uppercase tracking-wider block mb-1">Módulo 1</span>
+            <h3 class="text-sm font-bold text-slate-900">Serviços Fiscais (LC 116)</h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Cruzamento automático de códigos antigos com novos códigos DPS, alíquotas sugeridas, retenção no tomador e cópia em 1 toque do NBS correspondente.
+            </p>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <span class="text-[10px] font-bold text-red-600 uppercase tracking-wider block mb-1">Módulo 2</span>
+            <h3 class="text-sm font-bold text-slate-900">Catálogo Oficial NBS 2.0</h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Base oficial da Receita Federal estruturada por capítulos e subitens, com busca textual instantânea e copiador de códigos para ERPs.
+            </p>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <span class="text-[10px] font-bold text-red-600 uppercase tracking-wider block mb-1">Módulo 3</span>
+            <h3 class="text-sm font-bold text-slate-900">Prefeituras do Padrão Nacional</h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Acompanhamento de municípios aderentes ao Ambiente Nacional, webservices municipais, CNPJ, população IBGE e importador de planilhas Excel em lote.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Mobile First -->
+      <section>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-6 bg-red-600 rounded-full"></span>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">
+            3. Experiência Mobile-First (Uso Vertical)
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+          A interface foi arquitetada para uso em smartphones na vertical sem precisar virar o aparelho de lado:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-3 bg-red-50/50 border border-red-100 rounded-xl">
+            <p class="text-xs font-bold text-red-900">☰ Menu Drawer</p>
+            <p class="text-[11px] text-slate-600 mt-1">Menu retrátil deslizante com backdrop suave liberando espaço para consulta.</p>
+          </div>
+          <div class="p-3 bg-red-50/50 border border-red-100 rounded-xl">
+            <p class="text-xs font-bold text-red-900">📱 Cards Táteis</p>
+            <p class="text-[11px] text-slate-600 mt-1">Tabelas largas viram cartões verticais ergonômicos navegáveis com o polegar.</p>
+          </div>
+          <div class="p-3 bg-red-50/50 border border-red-100 rounded-xl">
+            <p class="text-xs font-bold text-red-900">⚡ Barra Inferior</p>
+            <p class="text-[11px] text-slate-600 mt-1">Acesso direto com 1 toque para alternar entre Serviços, NBS e Cidades.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Stack Tecnológica -->
+      <section class="page-break">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-6 bg-red-600 rounded-full"></span>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">
+            4. Stack Tecnológica & Arquitetura
+          </h2>
+        </div>
+
+        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200">
+              <tr>
+                <th class="p-3">Camada</th>
+                <th class="p-3">Tecnologias</th>
+                <th class="p-3">Diferencial Arquitetural</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="p-3 font-bold text-slate-900">Frontend SPA</td>
+                <td class="p-3 font-mono font-bold text-red-600">React 19 + TypeScript + Vite</td>
+                <td class="p-3 text-slate-600">Tipagem estrita, performance extrema e bundling otimizado.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">Estilização & UI</td>
+                <td class="p-3 font-mono font-bold text-red-600">Tailwind CSS v4 + Lucide</td>
+                <td class="p-3 text-slate-600">Design System responsivo sem dependências pesadas de terceiros.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">Banco de Dados</td>
+                <td class="p-3 font-mono font-bold text-red-600">Google Cloud Firestore</td>
+                <td class="p-3 text-slate-600">NoSQL distribuído com sincronização reativa em tempo real.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">Segurança & RBAC</td>
+                <td class="p-3 font-mono font-bold text-red-600">Web Crypto API (SHA-256 + Salt)</td>
+                <td class="p-3 text-slate-600">Criptografia client-side e bloqueio anti-força bruta.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">CI/CD & Deploy</td>
+                <td class="p-3 font-mono font-bold text-red-600">Vercel + GitHub</td>
+                <td class="p-3 text-slate-600">Deploy contínuo e rede de entrega global (Edge Network).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. Informações do Autor -->
+      <footer class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <p class="text-xs text-red-400 font-bold uppercase tracking-wider">Desenvolvedor & Engenheiro Responsável</p>
+          <p class="text-base font-extrabold text-white mt-0.5">André Antunes / André Barbosa</p>
+          <p class="text-xs text-slate-300 mt-1">Repositório: <a href="https://github.com/andrebarbosa-hue/portal_fiscal-" target="_blank" class="text-white underline font-mono">github.com/andrebarbosa-hue/portal_fiscal-</a></p>
+        </div>
+        <div class="no-print">
+          <a href="/NFSe_Fiscal_Apresentacao.pdf" download="NFSe_Fiscal_Apresentacao.pdf" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm inline-flex items-center gap-1.5">
+            📥 Baixar PDF
+          </a>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+</body>
+</html>
