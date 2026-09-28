@@ -2,47 +2,53 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Serviços Fiscais LC 116 (Consulta pública, criação/atualização com validação de esquema)
+    
+    // Regra Global de Autenticação Segura (JWT assinado pelo Google)
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Serviços Fiscais LC 116
+    // Consulta pública liberada; Gravação estritamente restrita a usuários autenticados; Deleção terminantemente proibida
     match /servicos/{servicoId} {
       allow read: if true;
-      allow create, update: if request.resource.data.descricao is string 
-                            && request.resource.data.descricao.size() > 0
-                            && request.resource.data.codigoNovo is string;
-      // Proíbe exclusão em massa ou por scripts externos
+      allow create, update: if isAuthenticated() 
+                            && request.resource.data.descricao is string 
+                            && request.resource.data.descricao.size() > 0;
       allow delete: if false;
     }
 
-    // Catálogo NBS (Consulta pública, criação/atualização com validação de código e descrição)
+    // Catálogo NBS
+    // Consulta pública liberada; Gravação restrita; Deleção proibida
     match /nbs/{nbsId} {
       allow read: if true;
-      allow create, update: if request.resource.data.codigo is string 
-                            && request.resource.data.codigo.size() > 0
+      allow create, update: if isAuthenticated()
+                            && request.resource.data.codigo is string 
                             && request.resource.data.descricao is string;
-      // Proíbe exclusão não autorizada
       allow delete: if false;
     }
 
-    // Prefeituras Padrão Nacional (Consulta pública, criação/atualização com validação de cidade e UF)
+    // Prefeituras Padrão Nacional
+    // Consulta pública liberada; Gravação restrita; Deleção proibida
     match /prefeituras/{prefeituraId} {
       allow read: if true;
-      allow create, update: if request.resource.data.cidade is string 
-                            && request.resource.data.cidade.size() > 0
+      allow create, update: if isAuthenticated()
+                            && request.resource.data.cidade is string 
                             && request.resource.data.uf is string;
-      // Proíbe exclusão não autorizada
       allow delete: if false;
     }
 
-    // Configurações do Sistema e Senha Mestra Criptografada
-    match /config/{configId} {
-      allow read: if true;
-      // Exige hash SHA-256 válido (64 caracteres) e salt aleatório seguro (mínimo 16 caracteres)
-      allow create, update: if request.resource.data.passwordHash is string
-                            && request.resource.data.passwordHash.size() == 64
-                            && request.resource.data.salt is string
-                            && request.resource.data.salt.size() >= 16;
-      // Proíbe exclusão da configuração mestra para evitar que o sistema seja travado
-      allow delete: if false;
+    // Configurações e Segredos: 100% BLOQUEADO
+    // Ninguém (nem autenticado, nem anônimo) pode ler ou escrever pela API da web
+    match /config/{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+
+    // Bloqueio padrão total para qualquer outra coleção não declarada
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
     }
   }
 }
-
