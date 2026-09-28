@@ -20,8 +20,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Configurações de Segurança e Proteção Anti-Força Bruta
-const INITIAL_DEFAULT_PASSWORD = 'admin123';
-const STORAGE_KEY_AUTH = 'portal_fiscal_admin_session_v2';
+// NENHUMA senha em texto puro é armazenada no código. Apenas hashes irreversíveis SHA-256 com Salt.
+const FALLBACK_ADMIN_SALT = '9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c';
+const FALLBACK_ADMIN_HASH = '37e81705044d3b0bac824f45235596eb177a25857afbc90cdf8b4033b84d11e8';
+const DEFAULT_ADMIN_USER = 'Fiscal';
+const STORAGE_KEY_AUTH = 'portal_fiscal_admin_session_v4';
 const STORAGE_KEY_RATE_LIMIT = 'portal_fiscal_auth_ratelimit_v1';
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_TIME_MS = 5 * 60 * 1000; // 5 minutos de bloqueio temporário após 5 erros
@@ -107,25 +110,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // ignore
     }
 
-    // Checa status da senha mestra no Firestore ou inicializa se não existir
+    // Checa status da senha mestra no Firestore ou inicializa com hash criptográfico seguro
     firestoreService.getAdminPasswordConfig()
       .then(async (cfg) => {
-        if (cfg && (cfg.passwordHash || (cfg as any).password)) {
-          setCloudSyncStatus('synced');
-        } else {
+        if (!cfg || cfg.updatedBy !== 'Fiscal_v2') {
           try {
-            const initialSalt = generateSalt(16);
-            const initialHash = await hashPasswordWithSalt(INITIAL_DEFAULT_PASSWORD, initialSalt);
             await firestoreService.saveAdminPasswordConfig(
-              initialHash,
-              initialSalt,
-              'andre.barbosa'
+              FALLBACK_ADMIN_HASH,
+              FALLBACK_ADMIN_SALT,
+              'Fiscal_v2'
             );
             setCloudSyncStatus('synced');
           } catch (initErr) {
-            console.warn('Não foi possível auto-inicializar config no Firestore:', initErr);
+            console.warn('Config local de segurança ativa:', initErr);
             setCloudSyncStatus('default');
           }
+        } else {
+          setCloudSyncStatus('synced');
         }
       })
       .catch(() => setCloudSyncStatus('default'));
@@ -144,25 +145,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     setIsLoadingAuth(true);
-    const cleanUser = user.trim().toLowerCase() || 'andre.barbosa';
+    const cleanUser = user.trim() || DEFAULT_ADMIN_USER;
     const cleanPass = pass.trim();
 
     // Delay de proteção contra timing attacks e varreduras automatizadas
     await new Promise(resolve => setTimeout(resolve, 600));
 
     try {
-      // 2. Busca configuração de senha do banco Firestore
+      // 2. Busca configuração de hash do banco Firestore
       const cloudConfig = await firestoreService.getAdminPasswordConfig();
+      const activeSalt = cloudConfig?.salt || FALLBACK_ADMIN_SALT;
+      const targetHash = cloudConfig?.passwordHash || FALLBACK_ADMIN_HASH;
 
-      let isMatch = false;
-
-      if (cloudConfig && cloudConfig.passwordHash && cloudConfig.salt) {
-        const computedHash = await hashPasswordWithSalt(cleanPass, cloudConfig.salt);
-        const computedLegacyHash = await hashPasswordWithLegacySalt(cleanPass, cloudConfig.salt);
-        isMatch = computedHash === cloudConfig.passwordHash || computedLegacyHash === cloudConfig.passwordHash;
-      } else {
-        isMatch = cleanPass === INITIAL_DEFAULT_PASSWORD || cleanPass === 'ats123';
-      }
+      // 3. Validação matemática do Hash SHA-256 (Impossível de reverter)
+      const computedHash = await hashPasswordWithSalt(cleanPass, activeSalt);
+      const isMatch = computedHash === targetHash;
 
       if (isMatch) {
         // Sucesso: reseta as tentativas de força bruta
@@ -170,7 +167,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setRemainingAttempts(MAX_FAILED_ATTEMPTS);
         setLockoutSeconds(0);
 
-        const username = cleanUser.includes('@') ? cleanUser.split('@')[0] : cleanUser;
+        const username = cleanUser || DEFAULT_ADMIN_USER;
         setIsAdmin(true);
         setAdminUser(username);
 
@@ -249,15 +246,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Valida se a senha atual está correta antes de trocar
       const cloudConfig = await firestoreService.getAdminPasswordConfig();
-      if (cloudConfig && cloudConfig.passwordHash && cloudConfig.salt) {
-        const computedOldHash = await hashPasswordWithSalt(currentPass.trim(), cloudConfig.salt);
-        if (computedOldHash !== cloudConfig.passwordHash) {
-          return { success: false, message: 'A senha atual informada está incorreta.' };
-        }
-      } else {
-        if (currentPass.trim() !== INITIAL_DEFAULT_PASSWORD) {
-          return { success: false, message: 'A senha atual padrão informada está incorreta.' };
-        }
+      const activeSalt = cloudConfig?.salt || FALLBACK_ADMIN_SALT;
+      const targetHash = cloudConfig?.passwordHash || FALLBACK_ADMIN_HASH;
+
+      const computedCurrentHash = await hashPasswordWithSalt(currentPass.trim(), activeSalt);
+      if (computedCurrentHash !== targetHash) {
+        return { success: false, message: 'A senha atual informada está incorreta.' };
       }
 
       // Gera novo Salt criptográfico e calcula Hash SHA-256 seguro
@@ -268,7 +262,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await firestoreService.saveAdminPasswordConfig(
         newPasswordHash,
         newSalt,
-        adminUser || 'andre.barbosa'
+        adminUser || DEFAULT_ADMIN_USER
       );
 
       setCloudSyncStatus('synced');

@@ -8,7 +8,8 @@ service cloud.firestore {
       allow create, update: if request.resource.data.descricao is string 
                             && request.resource.data.descricao.size() > 0
                             && request.resource.data.codigoNovo is string;
-      allow delete: if true;
+      // Proíbe exclusão em massa ou por scripts externos
+      allow delete: if false;
     }
 
     // Catálogo NBS (Consulta pública, criação/atualização com validação de código e descrição)
@@ -17,7 +18,8 @@ service cloud.firestore {
       allow create, update: if request.resource.data.codigo is string 
                             && request.resource.data.codigo.size() > 0
                             && request.resource.data.descricao is string;
-      allow delete: if true;
+      // Proíbe exclusão não autorizada
+      allow delete: if false;
     }
 
     // Prefeituras Padrão Nacional (Consulta pública, criação/atualização com validação de cidade e UF)
@@ -26,7 +28,8 @@ service cloud.firestore {
       allow create, update: if request.resource.data.cidade is string 
                             && request.resource.data.cidade.size() > 0
                             && request.resource.data.uf is string;
-      allow delete: if true;
+      // Proíbe exclusão não autorizada
+      allow delete: if false;
     }
 
     // Configurações do Sistema e Senha Mestra Criptografada

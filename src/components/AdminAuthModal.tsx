@@ -25,7 +25,7 @@ export const AdminAuthModal: React.FC = () => {
     remainingAttempts
   } = useAuth();
 
-  const [username, setUsername] = useState('andre.barbosa');
+  const [username, setUsername] = useState('Fiscal');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -250,7 +250,7 @@ export const AdminAuthModal: React.FC = () => {
                   disabled={lockoutSeconds > 0}
                   required
                   className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-600/30 focus:border-red-600 transition-all disabled:opacity-50"
-                  placeholder="Ex: andre.barbosa"
+                  placeholder="Ex: Fiscal"
                 />
               </div>
             </div>
